@@ -1,34 +1,31 @@
 from turtle import Turtle, Screen
 import random
+from car import Car
 
-COLORS = ["red", "orange", "yellow", "green", "blue", "purple"]
-STARTING_MOVE_DISTANCE = 5
-MOVE_INCREMENT = 10
-
-SCREEN_TOP = int(600 / 2)
-SCREEN_BOTTOM = int(-600 / 2)
-SPRITE_SIZE = 20
-
-SPAWN_XPOS = int(600 / 2) + (SPRITE_SIZE * 3)
+SPEED_INCREASE_FACTOR = 1.2
+SPAWN_CAR_COUNT = 6
 
 class CarManager(Turtle):
     def __init__(self):
         super().__init__()
         self.ht()
         self.cars = []
+        self.speed_multiplier = 0
 
     def spawn_car(self):
-        new_car = Turtle()
-        new_car.penup()
-        new_car.color(random.choice(COLORS))
-        new_car.shape("square")
-        new_car.shapesize(stretch_wid=1, stretch_len=3)
-        new_car.goto(self.get_random_spawn_pos())
+        new_car = Car()
         self.cars.append(new_car)
 
-    def get_random_spawn_pos(self):
-        rand_ypos = random.randint(SCREEN_BOTTOM + SPRITE_SIZE, SCREEN_TOP - int(SPRITE_SIZE / 2))
-        return (SPAWN_XPOS, rand_ypos)
+    def move_cars(self):
 
-    def move(self):
-        new_xpos = self.xcor() - MOVE_INCREMENT
+        for car in self.cars:
+            speed = car.move_speed + self.speed_multiplier
+            car.move(speed)
+
+    def increase_car_speed(self):
+        self.speed_multiplier += 5
+
+
+
+
+
